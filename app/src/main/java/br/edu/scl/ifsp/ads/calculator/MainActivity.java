@@ -29,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView resultTv;
 
+    private List<String> operations = new ArrayList<>();
+
+
+
     private String result = "";
 
     public static List<Integer> extractNumbers(String input) {
@@ -44,9 +48,25 @@ public class MainActivity extends AppCompatActivity {
         return numbers;
     }
 
-    public static int sumNumbers(List<Integer> input) {
+    public static List<String> extractOperations(String input) {
+        List<String> operations = new ArrayList<>();
+        Pattern pattern = Pattern.compile("\\d0\\d1\\d2\\d3\\d4\\d5\\d6\\d7\\d8\\d9");
+        Matcher matcher = pattern.matcher(input);
+
+        while (matcher.find()) {
+            String operarion = matcher.group();
+            operations.add(operarion);
+        }
+        System.out.println(operations.get(0) + operations.get(1));
+        return operations;
+
+    }
+
+    public static int calculate(String input) {
+        //extractOperations(input);
+        List<Integer> numbers = extractNumbers(input);
         int sum = 0;
-        for (Integer integer : input) {
+        for (Integer integer : numbers) {
             int intValue = integer.intValue();
             sum += intValue;
         }
@@ -123,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             resultTv.setText(result);
         });
         btEquals.setOnClickListener(v->{
-            result = String.valueOf(sumNumbers(extractNumbers(result)));
+            result = String.valueOf(calculate(result));
             resultTv.setText(result);
         });
 
